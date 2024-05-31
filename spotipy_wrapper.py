@@ -4,6 +4,7 @@ from typing import List, Tuple
 from playlist import Playlist
 from spotipy_auth import SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI, \
     SPOTIFY_CLIENT_SECRET
+from track import Track
 
 
 class SpotipyWrapper:
@@ -48,26 +49,24 @@ class SpotipyWrapper:
             for p in playlist_data
         ]
     
-    def get_all_tracks_from_playlist(self, p_id: str) -> List[Tuple[str, str]]:
+    def get_all_tracks_from_playlist(self, playlist_id: str) -> List[Track]:
         """
-        :param p_id: playlist id
-        :return: list of tracks in playlist [('id', 'name - artist')]
+        :param playlist_id: playlist id
+        :return: list of tracks in playlist, includes duplicates
         """
         self._set_scope("playlist-read-private")
-        results = self.sp.playlist(p_id, fields="tracks,next")
+        results = self.sp.playlist(playlist_id, fields="tracks,next")
         
-        songs_data = results['tracks']['items']
+        tracks_data = results['tracks']['items']
         results = results['tracks']
         while results['next']:
             results = self.sp.next(results)
-            songs_data.extend(results['items'])
+            tracks_data.extend(results['items'])
         
-        songs = []
-        for s in songs_data:
-            song_id = s['track']['id']
-            song_name = s['track']['name']
-            song_artists = ', '.join([i['name'] for i in s['track']['artists']])
-            
-            # print(song_id, f"{song_name} - {song_artists}")  # DEBUG
-            songs.append((song_id, f"{song_name} - {song_artists}"))
-        return songs
+        return [
+            Track(
+                t['track']['id'],
+                t['track']['name'],
+                ', '.join([i['name'] for i in t['track']['artists']]))
+            for t in tracks_data
+        ]
