@@ -161,3 +161,4 @@ cython_debug/
 
 # Spotipy Auth Secrets
 spotipy_auth.py
+spotipy_test_data.py
