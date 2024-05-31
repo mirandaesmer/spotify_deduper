@@ -1,6 +1,7 @@
 import spotipy
 from typing import List, Tuple
 
+from playlist import Playlist
 from spotipy_auth import SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI, \
     SPOTIFY_CLIENT_SECRET
 
@@ -29,9 +30,9 @@ class SpotipyWrapper:
         # TODO api returns paged results
         return []
     
-    def get_all_playlists(self) -> List[Tuple[str, str, str]]:
+    def get_all_playlists(self) -> List[Playlist]:
         """
-        :return: list of playlists [('id', 'playlist_name', 'playlist_description')]
+        :return: list of playlist objs
         """
         self._set_scope("playlist-read-private")
         results = self.sp.current_user_playlists()
@@ -42,11 +43,10 @@ class SpotipyWrapper:
             results = self.sp.next(results)
             playlist_data.extend(results['items'])
         
-        playlists = []
-        for p in playlist_data:
-            # print((p['id'], p['name'], p['description']))  # DEBUG
-            playlists.append((p['id'], p['name'], p['description']))
-        return playlists
+        return [
+            Playlist(p['id'], p['name'], p['description'])
+            for p in playlist_data
+        ]
     
     def get_all_tracks_from_playlist(self, p_id: str) -> List[Tuple[str, str]]:
         """
