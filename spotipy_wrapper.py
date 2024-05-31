@@ -5,7 +5,6 @@ from spotipy_auth import SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI, \
     SPOTIFY_CLIENT_SECRET
 
 
-# TODO these are untested on latest version of Python/Spotipy
 class SpotipyWrapper:
     def __init__(self):
         self.sp = None
