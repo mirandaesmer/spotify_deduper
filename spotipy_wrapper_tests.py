@@ -7,6 +7,11 @@ from spotipy_wrapper import SpotipyWrapper
 class SpotipyWrapperTests(TestCase):
     def setUp(self):
         self._wrapper = SpotipyWrapper()
+    
+    def test_get_all_liked_songs(self):
+        # DEBUG, see get_all_liked_songs()
+        tracks = self._wrapper.get_all_liked_songs()
+        self.assertTrue(tracks)
         
     def test_get_all_playlists(self):
         playlist_data = self._wrapper.get_all_playlists()

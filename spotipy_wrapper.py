@@ -1,5 +1,5 @@
 import spotipy
-from typing import List, Tuple
+from typing import List
 
 from playlist import Playlist
 from spotipy_auth import SPOTIFY_CLIENT_ID, SPOTIFY_REDIRECT_URI, \
@@ -27,10 +27,27 @@ class SpotipyWrapper:
     ###########################################################################
     # Spotipy API calls
     ###########################################################################
-    def get_all_liked_songs(self) -> List[Tuple[str, str]]:
-        # TODO api returns paged results
-        return []
-    
+    def get_all_liked_songs(self) -> List[Track]:
+        self._set_scope('user-library-read')
+        results = self.sp.current_user_saved_tracks(limit=50)
+        
+        tracks_data = []
+        while results['next']:
+            tracks_data.extend(results['items'])
+            results = self.sp.next(results)
+            
+            # DEBUG, avoids loading 5000+ songs in tests
+            # if len(tracks_data) >= 200:
+            #    break
+            
+        return [
+            Track(
+                t['track']['id'],
+                t['track']['name'],
+                ', '.join([i['name'] for i in t['track']['artists']]))
+            for t in tracks_data
+        ]
+
     def get_all_playlists(self) -> List[Playlist]:
         """
         :return: list of playlist objs
