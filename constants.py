@@ -1,0 +1,17 @@
+INCLUDE_GENRES = [
+    'FOLK',
+    'CLASSICAL',
+    'JAZZ',
+    'LATIN',
+    'HIPHOP',
+    'ROCK',
+    'POP',
+    'EDM',
+    'AMBIENT',
+]
+EXCLUDE_GENRES = [
+    'OTHER',
+    'TEST',
+]
+IDEAL_PLAYLIST_LENGTH = 50
+VALID_PLAYLIST_THRESHOLD = 25
