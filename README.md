@@ -23,3 +23,11 @@ in the spotify playlist description.
     - UPPERCASE - playlist has exactly 50 songs with no duplicates.
     - Capitalized - playlist has less than 50 songs and may have duplicates.
     - lowercase - playlist is very new or has less than 25 songs.
+
+### TODO
+- Add ability to track which playlists are public and which are private.
+- Add tests for SpotipyDeduper.get_badly_labeled_playlists()
+- Add docstring for SpotipyDeduper.get_badly_labeled_playlists()
+- Add docstring for SpotipyWrapper.get_all_liked_songs(), NOTE: function is 
+currently time-costly.
+- 
