@@ -33,10 +33,10 @@ class SpotifyDeduper:
                 malformed_playlists.append((pl, 'NO GENRE TAG '))
                 continue
             
-            token_name = pl.name.split(' ')
-            token_description = pl.description.split(' ')
+            name_tkn = pl.name.split(' ')
+            description_tkn = pl.description.split(' ')
             
-            if token_description[0] not in valid_genre_names:
+            if description_tkn[0] not in valid_genre_names:
                 malformed_playlists.append((pl, 'BAD GENRE TAG'))
                 continue
             
@@ -44,10 +44,11 @@ class SpotifyDeduper:
             tracks = self.wrapper.get_all_tracks_from_playlist(pl.id)
             pl.add_tracks(tracks)
             
-            if token_name[0].isupper() and pl.length != IDEAL_PLAYLIST_LENGTH:
+            if name_tkn[0].isupper() and pl.length != IDEAL_PLAYLIST_LENGTH:
                 malformed_playlists.append((pl, 'BAD PLAYLIST NAME'))
                 continue
-            elif token_name[0].islower() and pl.length >= VALID_PLAYLIST_THRESHOLD:
+            elif (name_tkn[0].islower() and
+                  pl.length >= VALID_PLAYLIST_THRESHOLD):
                 malformed_playlists.append((pl, 'BAD PLAYLIST NAME'))
                 continue
 
