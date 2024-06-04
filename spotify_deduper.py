@@ -1,10 +1,11 @@
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 from constants import INCLUDE_GENRES, EXCLUDE_GENRES, IDEAL_PLAYLIST_LENGTH, \
     VALID_PLAYLIST_THRESHOLD
 from genre import Genre
 from playlist import Playlist
 from spotipy_wrapper import SpotipyWrapper
+from track import Track
 
 
 class SpotifyDeduper:
@@ -53,3 +54,16 @@ class SpotifyDeduper:
                 continue
 
         return malformed_playlists
+    
+    def find_duplicates_single_playlist(self, playlist_id: str) -> Set[Track]:
+        pl_tracks = self.wrapper.get_all_tracks_from_playlist(playlist_id)
+        
+        visited_ids = set()
+        duplicates = set()
+        
+        for track in pl_tracks:
+            if track.id in visited_ids:
+                duplicates.add(track)
+            else:
+                visited_ids.add(track.id)
+        return duplicates
