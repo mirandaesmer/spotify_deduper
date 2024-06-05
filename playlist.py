@@ -14,6 +14,3 @@ class Playlist:
     def add_tracks(self, tracks: List[Track]) -> None:
         self.tracks += tracks
         self.length = len(self.tracks)
-
-    def __str__(self):
-        return f'\nPLAYLIST: {self.name} SIZE: {self.length} DESCRIPTION: {self.description}'

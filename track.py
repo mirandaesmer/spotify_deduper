@@ -3,6 +3,3 @@ class Track:
         self.id = _id
         self.name = name
         self.artist = artist
-    
-    def __str__(self):
-        return f'\nTRACK: {self.name} ARTIST: {self.artist}'

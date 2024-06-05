@@ -13,6 +13,3 @@ class Genre:
     def add_playlists(self, playlists: List[Playlist]) -> None:
         self.playlists += playlists
         self.amount = len(self.playlists)
-    
-    def __str__(self):
-        return f'\nGENRE: {self.name} AMOUNT: {self.amount} EXCLUDE: {self.include}'
