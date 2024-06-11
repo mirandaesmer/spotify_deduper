@@ -23,11 +23,14 @@ class SpotifyDeduper:
             self,
             debug=False
     ) -> List[Tuple[Playlist, str]]:
+        """
+        :param debug: use only test playlists if true.
+        :return: List of playlist objects in a tuple and labeling issue as str
+        """
         valid_genre_names = INCLUDE_GENRES + EXCLUDE_GENRES
         playlists = self.wrapper.get_all_playlists()
         malformed_playlists = []
         
-        # DEBUG: use only test playlists.
         if debug:
             playlists = list(filter(
                 lambda p: 'TEST' in p.description, playlists
@@ -50,6 +53,10 @@ class SpotifyDeduper:
         return malformed_playlists
     
     def find_duplicates_single_playlist(self, playlist_id: str) -> Set[Track]:
+        """
+        :param: spotify playlist id string
+        :return: set of track objs
+        """
         pl_tracks = self.wrapper.get_all_tracks_from_playlist(playlist_id)
         
         visited_ids = set()

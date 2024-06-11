@@ -28,6 +28,10 @@ class SpotipyWrapper:
     # Spotipy API calls
     ###########################################################################
     def get_all_liked_songs(self) -> List[Track]:
+        """
+        NOTE: This function is time costly with large libraries.
+        :return: large list of track objs
+        """
         self._set_scope('user-library-read')
         results = self.sp.current_user_saved_tracks(limit=50)
         
