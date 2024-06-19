@@ -66,7 +66,7 @@ class SpotipyWrapper:
             playlist_data.extend(results['items'])
         
         return [
-            Playlist(p['id'], p['name'], p['description'])
+            Playlist(p['id'], p['name'], p['description'], p['public'])
             for p in playlist_data
         ]
     
