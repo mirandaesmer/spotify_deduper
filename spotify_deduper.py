@@ -1,6 +1,7 @@
 from typing import List, Tuple, Set
 
-from constants import INCLUDE_GENRES, EXCLUDE_GENRES
+from constants import INCLUDE_GENRES, EXCLUDE_GENRES, IDEAL_PLAYLIST_LENGTH, \
+    VALID_PLAYLIST_THRESHOLD
 from genre import Genre
 from playlist import Playlist
 from spotipy_wrapper import SpotipyWrapper
@@ -45,11 +46,27 @@ class SpotifyDeduper:
             if description_tkn[0] not in valid_genre_names:
                 malformed_playlists.append((pl, 'BAD GENRE TAG'))
                 continue
-                
-                # NOTE: Spotify does not allow playlists with empty names
-                name_tkn = pl.name.split(' ')
-                # TODO missing BAD PLAYLIST NAME (length checks)
-                
+            
+            # Only query those that have passed previous filters
+            tracks = self.wrapper.get_all_tracks_from_playlist(pl.id)
+            pl.add_tracks(tracks)
+            
+            # NOTE: Spotify does not allow playlists with empty names
+            title = pl.name.split(' - ')[0]
+            if pl.length > IDEAL_PLAYLIST_LENGTH:
+                malformed_playlists.append((pl, 'TOO MANY TRACKS'))
+                continue
+            elif title.isupper() and pl.length != IDEAL_PLAYLIST_LENGTH:
+                malformed_playlists.append((pl, 'LENGTH NOT IDEAL'))
+                continue
+            elif title.islower() and pl.length >= VALID_PLAYLIST_THRESHOLD:
+                malformed_playlists.append((pl, 'LENGTH ABOVE THRESHOLD'))
+                continue
+            elif (not title.islower() and not title.isupper()) \
+                    and not (VALID_PLAYLIST_THRESHOLD < pl.length < IDEAL_PLAYLIST_LENGTH):
+                malformed_playlists.append((pl, 'BAD PLAYLIST NAME'))
+                continue
+            
         return malformed_playlists
     
     def find_duplicates_single_playlist(self, playlist_id: str) -> Set[Track]:
