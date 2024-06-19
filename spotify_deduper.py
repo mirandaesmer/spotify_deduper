@@ -66,6 +66,12 @@ class SpotifyDeduper:
                     and not (VALID_PLAYLIST_THRESHOLD < pl.length < IDEAL_PLAYLIST_LENGTH):
                 malformed_playlists.append((pl, 'BAD PLAYLIST NAME'))
                 continue
+            # elif title.isupper() and not pl.public:
+            #     malformed_playlists.append((pl, 'PUBLIC PLAYLIST IS PRIVATE'))
+            #     continue
+            elif not (title.isupper()) and pl.public:
+                malformed_playlists.append((pl, 'PRIVATE PLAYLIST IS PUBLIC'))
+                continue
             
         return malformed_playlists
     

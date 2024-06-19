@@ -25,6 +25,5 @@ in the spotify playlist description.
     - lowercase - playlist is very new or has less than 25 songs.
 
 ### TODO
-- Add ability to track which playlists are public and which are private.
 - Add test data (playlist / tracks) description to README
-- 
+- Bug in triggering 'PUBLIC PLAYLIST IS PRIVATE'
