@@ -105,3 +105,13 @@ class SpotifyDeduper:
         for pl_id in playlist_ids:
             all_tracks += self.wrapper.get_all_tracks_from_playlist(pl_id)
         return self._find_duplicate_tracks(all_tracks)
+
+    def find_duplicates_in_genre(self, genre: str) -> Set[Track]:
+        playlists = self.wrapper.get_all_playlists()
+        
+        genre_playlist_ids = [
+            pl.id for pl in playlists
+            if pl.description and pl.description.split(' ')[0] != genre
+        ]
+        return self.find_duplicates_multiple_playlists(genre_playlist_ids)
+    

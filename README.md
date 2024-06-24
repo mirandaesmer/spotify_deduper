@@ -28,3 +28,4 @@ in the spotify playlist description.
 - Add test data (playlist / tracks) description to README
 - Bug in triggering 'PUBLIC PLAYLIST IS PRIVATE'
 - Missing tests for find_duplicates_multiple_playlists()
+- Missing tests for find_duplicates_in_genre()
