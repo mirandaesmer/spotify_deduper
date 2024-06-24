@@ -25,8 +25,8 @@ class SpotifyDeduper:
             debug=False
     ) -> List[Tuple[Playlist, str]]:
         """
-        :param debug: use only test playlists if true.
-        :return: List of playlist objects in a tuple and labeling issue as str
+        :param debug: use only test playlists
+        :return: List of tuples of playlist objects and related error message
         """
         valid_genre_names = INCLUDE_GENRES + EXCLUDE_GENRES
         playlists = self.wrapper.get_all_playlists()
@@ -91,8 +91,8 @@ class SpotifyDeduper:
     
     def find_duplicates_single_playlist(self, playlist_id: str) -> Set[Track]:
         """
-        :param: spotify playlist id string
-        :return: set of track objs
+        :param playlist_id: spotify playlist id string
+        :return: tracks that exist in both playlists
         """
         pl_tracks = self.wrapper.get_all_tracks_from_playlist(playlist_id)
         return self._find_duplicate_tracks(pl_tracks)
@@ -101,12 +101,20 @@ class SpotifyDeduper:
             self,
             playlist_ids: List[str],
     ) -> Set[Track]:
+        """
+        :param playlist_ids: spotify playlist id strings
+        :return: tracks that exist in two or more playlists
+        """
         all_tracks = []
         for pl_id in playlist_ids:
             all_tracks += self.wrapper.get_all_tracks_from_playlist(pl_id)
         return self._find_duplicate_tracks(all_tracks)
 
     def find_duplicates_in_genre(self, genre: str) -> Set[Track]:
+        """
+        :param genre: name of valid genre, defined in constants.py
+        :return: tracks that exist in two or more playlists
+        """
         playlists = self.wrapper.get_all_playlists()
         
         genre_playlist_ids = [
