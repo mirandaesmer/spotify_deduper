@@ -69,9 +69,9 @@ class SpotifyDeduper:
             # elif title.isupper() and not pl.public:
             #     malformed_playlists.append((pl, 'PUBLIC PLAYLIST IS PRIVATE'))
             #     continue
-            elif not (title.isupper()) and pl.public:
-                malformed_playlists.append((pl, 'PRIVATE PLAYLIST IS PUBLIC'))
-                continue
+            # elif not (title.isupper()) and pl.public:
+            #     malformed_playlists.append((pl, 'PRIVATE PLAYLIST IS PUBLIC'))
+            #     continue
             
         return malformed_playlists
     

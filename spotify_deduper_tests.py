@@ -64,6 +64,7 @@ class SpotifyDeduperTests(TestCase):
         # self.assertEqual(bad_playlist, TEST_PLAYLIST_1['name'])
         # self.assertEqual(error_str, 'PUBLIC PLAYLIST IS PRIVATE')
         
+        # TODO currently not working, incorrectly marked as public from API
         # Manually trigger 'PRIVATE PLAYLIST IS PUBLIC')
         # results = self.deduper.get_badly_labeled_playlists(debug=True)
         # bad_playlist = results[0][0].name
