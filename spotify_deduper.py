@@ -78,19 +78,30 @@ class SpotifyDeduper:
             
         return malformed_playlists
     
+    def _find_duplicate_tracks(self, track_list: List[Track]) -> Set[Track]:
+        visited_ids = set()
+        duplicates = set()
+        
+        for track in track_list:
+            if track.id in visited_ids:
+                duplicates.add(track)
+            else:
+                visited_ids.add(track.id)
+        return duplicates
+    
     def find_duplicates_single_playlist(self, playlist_id: str) -> Set[Track]:
         """
         :param: spotify playlist id string
         :return: set of track objs
         """
         pl_tracks = self.wrapper.get_all_tracks_from_playlist(playlist_id)
+        return self._find_duplicate_tracks(pl_tracks)
         
-        visited_ids = set()
-        duplicates = set()
-        
-        for track in pl_tracks:
-            if track.id in visited_ids:
-                duplicates.add(track)
-            else:
-                visited_ids.add(track.id)
-        return duplicates
+    def find_duplicates_multiple_playlists(
+            self,
+            playlist_ids: List[str],
+    ) -> Set[Track]:
+        all_tracks = []
+        for pl_id in playlist_ids:
+            all_tracks += self.wrapper.get_all_tracks_from_playlist(pl_id)
+        return self._find_duplicate_tracks(all_tracks)

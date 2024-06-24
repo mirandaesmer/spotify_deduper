@@ -27,3 +27,4 @@ in the spotify playlist description.
 ### TODO
 - Add test data (playlist / tracks) description to README
 - Bug in triggering 'PUBLIC PLAYLIST IS PRIVATE'
+- Missing tests for find_duplicates_multiple_playlists()
