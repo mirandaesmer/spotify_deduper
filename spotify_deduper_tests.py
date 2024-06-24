@@ -14,7 +14,7 @@ class SpotifyDeduperTests(TestCase):
         # test playlists, both on the desktop and mobile app.
         
         # Manually trigger 'NO GENRE TAG' ()
-        # results = self.deduper.get_badly_labeled_playlists(debug=False)
+        # results = self.deduper.get_badly_labeled_playlists(debug=True)
         # bad_playlist = results[0][0].name
         # error_str = results[0][1]
         # self.assertEqual(bad_playlist, TEST_PLAYLIST_1['name'])

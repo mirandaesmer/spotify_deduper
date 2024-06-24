@@ -47,7 +47,10 @@ class SpotifyDeduper:
                 malformed_playlists.append((pl, 'BAD GENRE TAG'))
                 continue
             
-            # Only query those that have passed previous filters
+            # Only query relevant playlists
+            if not debug and description_tkn[0] not in INCLUDE_GENRES:
+                continue
+
             tracks = self.wrapper.get_all_tracks_from_playlist(pl.id)
             pl.add_tracks(tracks)
             
